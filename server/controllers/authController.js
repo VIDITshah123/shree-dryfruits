@@ -135,8 +135,8 @@ export const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body
 
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@shreedryfruits.com'
-    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@admin.com'
+    const adminPassword = process.env.ADMIN_PASSWORD || 'Admin@123'
 
     if (email !== adminEmail || password !== adminPassword) {
       return res.status(401).json({ error: 'Invalid admin credentials' })

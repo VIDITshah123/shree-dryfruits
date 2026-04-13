@@ -51,10 +51,13 @@ const Admin = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault()
+    setLoading(true)
     try {
       await adminLogin(loginForm.email, loginForm.password)
     } catch (error) {
-      alert('Invalid admin credentials')
+      alert(error.response?.data?.error || 'Login failed')
+    } finally {
+      setLoading(false)
     }
   }
 
