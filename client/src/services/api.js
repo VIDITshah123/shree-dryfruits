@@ -34,13 +34,19 @@ export const authAPI = {
 
 export const categoryAPI = {
   getAll: () => api.get('/categories'),
-  getById: (id) => api.get(`/categories/${id}`)
+  getById: (id) => api.get(`/categories/${id}`),
+  create: (data) => api.post('/categories', data),
+  update: (id, data) => api.put(`/categories/${id}`, data),
+  delete: (id) => api.delete(`/categories/${id}`)
 }
 
 export const productAPI = {
   getAll: (params) => api.get('/products', { params }),
   getFeatured: () => api.get('/products/featured'),
-  getById: (id) => api.get(`/products/${id}`)
+  getById: (id) => api.get(`/products/${id}`),
+  create: (data) => api.post('/products', data),
+  update: (id, data) => api.put(`/products/${id}`, data),
+  delete: (id) => api.delete(`/products/${id}`)
 }
 
 export const hamperAPI = {
