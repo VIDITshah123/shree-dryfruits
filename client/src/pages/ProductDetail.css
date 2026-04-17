@@ -104,10 +104,24 @@
 }
 
 .weight-tag {
-  padding: var(--spacing-xs) var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
   background: var(--color-background);
+  border: 2px solid var(--color-border);
   border-radius: var(--border-radius);
   font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-weight: 500;
+}
+
+.weight-tag:hover {
+  border-color: var(--color-accent);
+}
+
+.weight-tag.selected {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-text);
 }
 
 .stock-info {

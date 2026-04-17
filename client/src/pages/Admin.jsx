@@ -26,6 +26,17 @@ const Admin = () => {
     name: '', category_id: '', price: '', description: '', stock: '', images: '', weight_options: ''
   })
 
+  const parseWeightOptions = (str) => {
+    if (!str || !str.trim()) return []
+    return str.split(',').map(s => s.trim()).filter(Boolean).map(w => {
+      const parts = w.split(':')
+      if (parts.length === 2) {
+        return { weight: parts[0].trim(), price: parseFloat(parts[1].trim()) }
+      }
+      return { weight: w.trim(), price: parseFloat(productForm.price) || 0 }
+    })
+  }
+
   const [categoryForm, setCategoryForm] = useState({
     name: '', description: '', image: ''
   })
@@ -93,6 +104,9 @@ const Admin = () => {
   const openProductForm = (product = null) => {
     if (product) {
       setEditingProduct(product)
+      const weightStr = (product.weight_options || []).map(w => 
+        typeof w === 'object' ? `${w.weight}:${w.price}` : w
+      ).join(', ')
       setProductForm({
         name: product.name || '',
         category_id: product.category_id || '',
@@ -100,7 +114,7 @@ const Admin = () => {
         description: product.description || '',
         stock: product.stock || '',
         images: (product.images || []).join(', '),
-        weight_options: (product.weight_options || []).join(', ')
+        weight_options: weightStr
       })
     } else {
       setEditingProduct(null)
@@ -118,6 +132,7 @@ const Admin = () => {
     e.preventDefault()
     setLoading(true)
     try {
+      const weightOpts = parseWeightOptions(productForm.weight_options)
       const data = {
         name: productForm.name,
         category_id: productForm.category_id || null,
@@ -125,7 +140,7 @@ const Admin = () => {
         description: productForm.description,
         stock: parseInt(productForm.stock) || 0,
         images: productForm.images.split(',').map(s => s.trim()).filter(Boolean),
-        weight_options: productForm.weight_options.split(',').map(s => s.trim()).filter(Boolean)
+        weight_options: weightOpts
       }
 
       if (editingProduct) {
@@ -458,8 +473,8 @@ const Admin = () => {
                   <input type="number" value={productForm.stock} onChange={(e) => setProductForm({ ...productForm, stock: e.target.value })} required />
                 </div>
                 <div className="form-group">
-                  <label>Weight Options (comma-separated)</label>
-                  <input type="text" placeholder="250g, 500g, 1kg" value={productForm.weight_options} onChange={(e) => setProductForm({ ...productForm, weight_options: e.target.value })} />
+                  <label>Weight Options (Format: weight:price, e.g., 500g:450, 1kg:850)</label>
+                  <input type="text" placeholder="500g:450, 1kg:850" value={productForm.weight_options} onChange={(e) => setProductForm({ ...productForm, weight_options: e.target.value })} />
                 </div>
               </div>
               <div className="form-group">

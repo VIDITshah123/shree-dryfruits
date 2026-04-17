@@ -16,6 +16,8 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
+  const [selectedWeight, setSelectedWeight] = useState(null)
+  const [selectedPrice, setSelectedPrice] = useState(null)
   const [message, setMessage] = useState('')
 
   useEffect(() => {
@@ -23,6 +25,10 @@ const ProductDetail = () => {
       try {
         const response = await productAPI.getById(id)
         setProduct(response.data)
+        if (response.data.weight_options && response.data.weight_options.length > 0) {
+          setSelectedWeight(response.data.weight_options[0].weight)
+          setSelectedPrice(response.data.weight_options[0].price)
+        }
       } catch (error) {
         console.error('Failed to fetch product:', error)
         navigate('/products')
@@ -33,12 +39,22 @@ const ProductDetail = () => {
     fetchProduct()
   }, [id, navigate])
 
+  const handleWeightSelect = (weightObj) => {
+    setSelectedWeight(weightObj.weight)
+    setSelectedPrice(weightObj.price)
+  }
+
   const handleAddToCart = async () => {
     if (!user) {
       navigate('/login')
       return
     }
-    const result = await addToCart(product.id, quantity)
+    if (!selectedWeight || selectedPrice === null) {
+      setMessage('Please select a weight option')
+      setTimeout(() => setMessage(''), 3000)
+      return
+    }
+    const result = await addToCart(product.id, quantity, selectedWeight, selectedPrice)
     if (result.success) {
       setMessage('Added to cart!')
       setTimeout(() => setMessage(''), 3000)
@@ -71,6 +87,8 @@ const ProductDetail = () => {
     ? product.images 
     : ['/placeholder.jpg']
 
+  const displayPrice = selectedPrice !== null ? selectedPrice : product.price
+
   return (
     <div className="product-detail-page">
       <Navbar />
@@ -102,16 +120,22 @@ const ProductDetail = () => {
         <div className="product-info">
           <h1>{product.name}</h1>
           <p className="category">{product.category_name}</p>
-          <p className="price">₹{product.price.toFixed(2)}</p>
+          <p className="price">₹{displayPrice.toFixed(2)}</p>
           
           <p className="description">{product.description}</p>
 
           {product.weight_options && product.weight_options.length > 0 && (
             <div className="weight-options">
-              <label>Weight Options:</label>
+              <label>Select Weight:</label>
               <div className="weights">
                 {product.weight_options.map((w, i) => (
-                  <span key={i} className="weight-tag">{w}</span>
+                  <button
+                    key={i}
+                    className={`weight-tag ${selectedWeight === w.weight ? 'selected' : ''}`}
+                    onClick={() => handleWeightSelect(w)}
+                  >
+                    {w.weight} - ₹{w.price}
+                  </button>
                 ))}
               </div>
             </div>

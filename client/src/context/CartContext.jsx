@@ -23,10 +23,10 @@ export const CartProvider = ({ children }) => {
     }
   }, [])
 
-  const addToCart = async (product_id, quantity = 1) => {
+  const addToCart = async (product_id, quantity = 1, weight = null, price = null) => {
     setLoading(true)
     try {
-      await cartAPI.add(product_id, quantity)
+      await cartAPI.add(product_id, quantity, weight, price)
       await fetchCart()
       return { success: true }
     } catch (error) {
@@ -36,10 +36,10 @@ export const CartProvider = ({ children }) => {
     }
   }
 
-  const updateQuantity = async (productId, quantity) => {
+  const updateQuantity = async (cartId, quantity, weight = null) => {
     setLoading(true)
     try {
-      await cartAPI.update(productId, quantity)
+      await cartAPI.update(cartId, quantity, weight)
       await fetchCart()
       return { success: true }
     } catch (error) {
@@ -49,10 +49,10 @@ export const CartProvider = ({ children }) => {
     }
   }
 
-  const removeFromCart = async (productId) => {
+  const removeFromCart = async (cartId) => {
     setLoading(true)
     try {
-      await cartAPI.remove(productId)
+      await cartAPI.remove(cartId)
       await fetchCart()
       return { success: true }
     } catch (error) {

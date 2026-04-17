@@ -42,16 +42,17 @@ const Cart = () => {
                   </div>
                   <div className="item-info">
                     <h3>{item.name}</h3>
+                    {item.weight && <p className="weight">Weight: {item.weight}</p>}
                     <p className="price">₹{item.price.toFixed(2)}</p>
                     <p className="subtotal">Subtotal: ₹{(item.price * item.quantity).toFixed(2)}</p>
                   </div>
                   <div className="item-actions">
                     <div className="quantity-selector">
-                      <button onClick={() => updateQuantity(item.product_id, item.quantity - 1)} disabled={loading}>-</button>
+                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={loading}>-</button>
                       <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.product_id, item.quantity + 1)} disabled={loading}>+</button>
+                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)} disabled={loading}>+</button>
                     </div>
-                    <button className="remove-btn" onClick={() => removeFromCart(item.product_id)} disabled={loading}>
+                    <button className="remove-btn" onClick={() => removeFromCart(item.id)} disabled={loading}>
                       Remove
                     </button>
                   </div>

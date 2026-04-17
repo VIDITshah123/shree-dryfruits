@@ -56,9 +56,9 @@ export const hamperAPI = {
 
 export const cartAPI = {
   get: () => api.get('/cart'),
-  add: (product_id, quantity) => api.post('/cart', { product_id, quantity }),
-  update: (productId, quantity) => api.put(`/cart/${productId}`, { quantity }),
-  remove: (productId) => api.delete(`/cart/${productId}`),
+  add: (product_id, quantity, weight, price) => api.post('/cart', { product_id, quantity, weight, price }),
+  update: (cartId, quantity, weight) => api.put(`/cart/${cartId}`, { quantity, weight }),
+  remove: (cartId) => api.delete(`/cart/${cartId}`),
   clear: () => api.delete('/cart')
 }
 

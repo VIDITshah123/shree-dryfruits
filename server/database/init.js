@@ -89,6 +89,7 @@ const initDB = async () => {
       order_id INTEGER,
       product_id INTEGER,
       hamper_id INTEGER,
+      weight TEXT,
       quantity INTEGER NOT NULL,
       price REAL NOT NULL,
       FOREIGN KEY (order_id) REFERENCES orders(id),
@@ -102,6 +103,8 @@ const initDB = async () => {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER,
       product_id INTEGER,
+      weight TEXT,
+      price REAL,
       quantity INTEGER DEFAULT 1,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users(id),
@@ -122,6 +125,16 @@ const initDB = async () => {
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `)
+
+  try {
+    db.run(`ALTER TABLE cart ADD COLUMN weight TEXT`)
+  } catch (e) {}
+  try {
+    db.run(`ALTER TABLE cart ADD COLUMN price REAL`)
+  } catch (e) {}
+  try {
+    db.run(`ALTER TABLE order_items ADD COLUMN weight TEXT`)
+  } catch (e) {}
 
   saveDB()
   

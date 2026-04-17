@@ -22,11 +22,13 @@ export const createOrder = (req, res) => {
     }
 
     const cartItems = cartResult[0].values.map(row => ({
+      id: row[0],
       product_id: row[2],
-      name: row[5],
-      price: row[6],
-      quantity: row[3],
-      stock: row[7]
+      weight: row[3],
+      price: row[4],
+      quantity: row[5],
+      name: row[7],
+      stock: row[9]
     }))
 
     for (const item of cartItems) {
@@ -48,9 +50,9 @@ export const createOrder = (req, res) => {
 
     for (const item of cartItems) {
       db.run(`
-        INSERT INTO order_items (order_id, product_id, quantity, price)
-        VALUES (?, ?, ?, ?)
-      `, [orderId, item.product_id, item.quantity, item.price])
+        INSERT INTO order_items (order_id, product_id, weight, quantity, price)
+        VALUES (?, ?, ?, ?, ?)
+      `, [orderId, item.product_id, item.weight, item.quantity, item.price])
 
       db.run(`UPDATE products SET stock = stock - ? WHERE id = ?`, [item.quantity, item.product_id])
     }
