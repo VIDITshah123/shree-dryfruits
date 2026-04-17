@@ -23,9 +23,9 @@ const Footer = () => {
 
         <div className="footer-section">
           <h4>Contact</h4>
-          <p>Email: info@shreedryfruits.com</p>
-          <p>Phone: +91 98765 43210</p>
-          <p>Address: Your City, India</p>
+          <p>Email: shahvidit15@gmails.com</p>
+          <p>Phone: +91 8828778440</p>
+          <p>Address: Pune, India</p>
         </div>
 
         <div className="footer-section">

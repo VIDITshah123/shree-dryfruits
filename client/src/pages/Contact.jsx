@@ -39,36 +39,36 @@ const Contact = () => {
   return (
     <div className="contact-page">
       <Navbar />
-      
+
       <div className="contact-container">
         <h1>Contact Us</h1>
-        
+
         <div className="contact-content">
           <div className="contact-info">
             <h2>Get in Touch</h2>
             <p>Have a question or need assistance? We'd love to hear from you!</p>
-            
+
             <div className="info-item">
               <span className="icon">📍</span>
               <div>
                 <h4>Address</h4>
-                <p>Your City, India</p>
+                <p>Pune, India</p>
               </div>
             </div>
-            
+
             <div className="info-item">
               <span className="icon">📞</span>
               <div>
                 <h4>Phone</h4>
-                <p>+91 98765 43210</p>
+                <p>+91 8828778440</p>
               </div>
             </div>
-            
+
             <div className="info-item">
               <span className="icon">✉️</span>
               <div>
                 <h4>Email</h4>
-                <p>info@shreedryfruits.com</p>
+                <p>shahvidit15@gmails.com</p>
               </div>
             </div>
 
@@ -76,9 +76,9 @@ const Contact = () => {
               Call Us Now
             </a>
 
-            <a 
-              href="https://wa.me/919876543210" 
-              target="_blank" 
+            <a
+              href="https://wa.me/919876543210"
+              target="_blank"
               rel="noopener noreferrer"
               className="btn btn-outline whatsapp-btn"
             >
@@ -90,7 +90,7 @@ const Contact = () => {
             <h2>Send us a Message</h2>
             {message && <div className="success-message">{message}</div>}
             {error && <div className="error-message">{error}</div>}
-            
+
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Your Name *</label>
